@@ -1,0 +1,53 @@
+@hourly /usr/bin/flock -n /tmp/issubgraph.lockfile /usr/bin/python3 /app/luigi-gql-workflow/issubscriber_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/issubmaster.lockfile /usr/bin/python3 /app/luigi-gql-workflow/issubscriber_to_master_wf.py
+
+@hourly /usr/bin/flock -n /tmp/mailgraph.lockfile /usr/bin/python3 /app/luigi-gql-workflow/mailchimp_export_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/mailmaster.lockfile /usr/bin/python3 /app/luigi-gql-workflow/mailchimp_export_to_master_wf.py
+
+* * * * * /usr/bin/python3 /app/luigi-gql-workflow/mailchimp_fast_ingest_wf.py
+
+@hourly /usr/bin/flock -n /tmp/processstg.lockfile /usr/bin/python3 /app/luigi-gql-workflow/process_stg_pdl_wf.py
+
+#@hourly /usr/bin/flock -n /tmp/purchgraph.lockfile /usr/bin/python3 /app/luigi-gql-workflow/purchase_order_to_graph_wf.py
+
+#@hourly /usr/bin/flock -n /tmp/purchmaster.lockfile /usr/bin/python3 /app/luigi-gql-workflow/purchase_order_to_master_wf.py
+
+@hourly /usr/bin/flock -n /tmp/purchinfgql.lockfile /usr/bin/python3 /app/luigi-gql-workflow/purchase_order_new_influencer_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/checkgql.lockfile /usr/bin/python3 /app/luigi-gql-workflow/checkout_order_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/checkmaster.lockfile /usr/bin/python3 /app/luigi-gql-workflow/checkout_order_to_master_wf.py
+
+@hourly /usr/bin/flock -n /tmp/checkinfgql.lockfile /usr/bin/python3 /app/luigi-gql-workflow/checkout_order_new_influencer_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/procstgusergem.lockfile /usr/bin/python3 /app/luigi-gql-workflow/process_stg_usergems_wf.py
+
+@hourly /usr/bin/flock -n /tmp/ailinfgql.lockfile /usr/bin/python3 /app/luigi-gql-workflow/mailchimp_export_new_influencer_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/issubinfgql.lockfile /usr/bin/python3 /app/luigi-gql-workflow/issubscriber_new_influencer_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/reclink.lockfile /opt/spark/bin/spark-submit --driver-memory 15g --conf "spark.driver.maxResultSize=15g" /app/luigi-aka/recordlinkage-pyspark.py
+
+@hourly /usr/bin/flock -n /tmp/clean.lockfile /usr/bin/python3 /app/luigi-store/clean_up_elasticache_versions.py
+
+#0 */3 * * * /usr/bin/flock -n /tmp/batch.lockfile /usr/bin/python3 /app/luigi-store/batch_update.py
+
+@hourly /usr/bin/flock -n /tmp/procstgusergems.lockfile /usr/bin/python3 /app/luigi-gql-workflow/process_stg_usergems_aka_wf.py
+
+0 */4 * * * /usr/bin/flock -n /tmp/netanaproducer.lockfile /usr/bin/python3 /app/luigi-gql-workflow/network_analytics_producer_wf.py
+
+0 */3 * * * /usr/bin/flock -n /tmp/infpy.lockfile /usr/bin/python3 /app/luigi-gql-workflow/generate_influencer_wf.py
+
+0 */3 * * * rm /tmp/*.lockfile
+
+30 */4 * * * /usr/bin/flock -n /tmp/refresh.lockfile /usr/bin/python3 /app/luigi-gql-workflow/refresh_materialized_view.py
+
+* * * * * /usr/bin/python3 /app/luigi-gql-workflow/issubscriber_fast_ingest_wf.py
+
+0 */4 * * * /usr/bin/flock -n /tmp/geninfhandle.lockfile /usr/bin/python3 /app/luigi-gql-workflow/generate_influencer_by_handle_wf.py
+
+@hourly /usr/bin/flock -n /tmp/isfolsocgraph.lockfile /usr/bin/python3 /app/luigi-gql-workflow/isfollower_socialdata_to_graph_wf.py
+
+@hourly /usr/bin/flock -n /tmp/isfolsocmaster.lockfile /usr/bin/python3 /app/luigi-gql-workflow/isfollower_socialdata_to_master.py
